@@ -8,8 +8,8 @@ const Card = require('../models/card');
 module.exports.getCards = (req, res) => {
   Card.find({})
     .then((cards) => res.send({ cards }))
-    .catch((err) => {
-      res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+    .catch(() => {
+      res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -23,7 +23,7 @@ module.exports.createCard = (req, res) => {
           message: 'Переданы некорректные данные при создании карточки.',
         });
       }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -43,7 +43,7 @@ module.exports.deleteCard = (req, res) => {
           message: 'Переданы некорректные данные для постановки/снятии лайка.',
         });
       }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -67,7 +67,7 @@ module.exports.likeCard = (req, res) => {
           message: 'Переданы некорректные данные для постановки/снятии лайка.',
         });
       }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -91,6 +91,6 @@ module.exports.dislikeCard = (req, res) => {
           message: 'Переданы некорректные данные для постановки/снятии лайка.',
         });
       }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' });
     });
 };

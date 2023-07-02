@@ -8,8 +8,8 @@ const User = require('../models/user');
 module.exports.getUsers = (req, res) => {
   User.find({})
     .then((users) => res.send({ users }))
-    .catch((err) => {
-      res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+    .catch(() => {
+      res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -25,7 +25,9 @@ module.exports.createUser = (req, res) => {
           message: 'Переданы некорректные данные при создании пользователя.',
         });
       }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+      return res
+        .status(INTERNAL_SERVER_ERROR)
+        .send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -41,9 +43,13 @@ module.exports.getUserById = (req, res) => {
     })
     .catch((err) => {
       if (err.kind === 'ObjectId') {
-        return res.status(BAD_REQUEST).send({ message: err.message });
+        return res
+          .status(BAD_REQUEST)
+          .send({ message: 'Переданы некорректные данные для пользователя' });
       }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+      return res
+        .status(INTERNAL_SERVER_ERROR)
+        .send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -68,7 +74,9 @@ module.exports.updateProfile = (req, res) => {
           message: 'Переданы некорректные данные при обновлении профиля. ',
         });
       }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+      return res
+        .status(INTERNAL_SERVER_ERROR)
+        .send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -93,6 +101,8 @@ module.exports.updateAvatar = (req, res) => {
           message: 'Переданы некорректные данные при обновлении аватара.',
         });
       }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+      return res
+        .status(INTERNAL_SERVER_ERROR)
+        .send({ message: 'Произошла ошибка' });
     });
 };
