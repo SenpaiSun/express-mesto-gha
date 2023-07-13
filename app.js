@@ -8,6 +8,7 @@ const cardsRouter = require('./routes/cards');
 const usersRouter = require('./routes/users');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
+const { errors } = require('celebrate');
 
 const app = express();
 const { PORT = 3000 } = process.env;
@@ -30,8 +31,9 @@ app.use(usersRouter);
 app.use('*', () => {
   throw new NotFoundError('Некорректный URL');
 });
-app.use((err, req, res) => {
-  res.status(err.status).send({ message: err.message });
+app.use(errors());
+app.use((err, req, res, next) => {
+  res.status(err.status).json({ message: err.message });
 });
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
