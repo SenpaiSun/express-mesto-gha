@@ -56,7 +56,8 @@ app.use('*', () => {
   throw new NotFoundError('Некорректный URL');
 });
 app.use(errors());
-app.use((err, req, res) => {
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
   res.status(err.status).json({ message: err.message });
 });
 app.listen(PORT, () => {

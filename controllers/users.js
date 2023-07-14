@@ -132,7 +132,7 @@ module.exports.login = (req, res, next) => {
     .select('+password')
     .then((user) => {
       if (!user) {
-        return next(new ValidationError('Неправильная почта или пароль'));
+        return next(new UnauthorizedError('Неправильная почта или пароль'));
       }
       userInfo = user;
       return bcrypt.compare(password, user.password);
