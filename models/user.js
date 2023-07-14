@@ -4,17 +4,19 @@ const validator = require('validator');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: false,
-    minlength: 2,
-    maxlength: 30,
     default: 'Жак-Ив Кусто',
+    validate: {
+      validator: (value) => value.length >= 2 && value.length <= 30,
+      message: 'Имя пользователя должно быть от 2 до 30 символов!',
+    },
   },
   about: {
     type: String,
-    required: false,
-    minlength: 2,
-    maxlength: 30,
     default: 'Исследователь',
+    validate: {
+      validator: (value) => value.length >= 2 && value.length <= 30,
+      message: 'Информация о пользователе должна быть от 2 до 30 символов!',
+    },
   },
   avatar: {
     type: String,
@@ -23,18 +25,26 @@ const userSchema = new mongoose.Schema({
       'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
     validate: {
       validator: (avatar) => /^(http|https):\/\/(www\.)?[\w\-._~:/?#]+#?$/.test(avatar),
+      message: 'Введите URL!',
     },
   },
   email: {
     type: String,
     required: true,
-    validate: [validator.isEmail, 'Invalid email'],
     unique: true,
+    validate: {
+      validator: (email) => validator.isEmail(email),
+      message: 'Требуется ввести электронный адрес',
+    },
   },
   password: {
     type: String,
     required: true,
     select: false,
+    validate: {
+      validator: (value) => value.length >= 6,
+      message: 'Пароль должен быть длинее 6 символов!',
+    },
   },
 });
 

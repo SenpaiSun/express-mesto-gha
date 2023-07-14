@@ -17,7 +17,7 @@ router.delete(
       cardId: Joi.string().length(24).hex().required(),
     }),
   }),
-  deleteCard
+  deleteCard,
 );
 router.post(
   '/cards',
@@ -29,7 +29,7 @@ router.post(
         .pattern(/^(http|https):\/\/(www\.)?[\w\-._~:/?#]+#?$/),
     }),
   }),
-  createCard
+  createCard,
 );
 router.put(
   '/cards/:cardId/likes',
@@ -38,7 +38,7 @@ router.put(
       cardId: Joi.string().length(24).hex().required(),
     }),
   }),
-  likeCard
+  likeCard,
 );
 router.delete(
   '/cards/:cardId/likes',
@@ -47,7 +47,7 @@ router.delete(
       cardId: Joi.string().length(24).hex().required(),
     }),
   }),
-  dislikeCard
+  dislikeCard,
 );
 
 module.exports = router;

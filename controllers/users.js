@@ -20,10 +20,21 @@ module.exports.createUser = (req, res, next) => {
   bcrypt
     .hash(password, 10)
     .then((hash) => User.create({
-      name, about, avatar, email, password: hash,
+      name,
+      about,
+      avatar,
+      email,
+      password: hash,
     }))
     .then((user) => {
-      res.send({ user });
+      const { _id } = user;
+      return res.status(201).send({
+        email,
+        name,
+        about,
+        avatar,
+        _id,
+      });
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -34,11 +45,7 @@ module.exports.createUser = (req, res, next) => {
         );
       }
       if (err.code === 11000) {
-        return next(
-          new ConflictError(
-            'Переданы некорректные данные при создании пользователя',
-          ),
-        );
+        return next(new ConflictError('Такой Email уже зарегистрирован!'));
       }
       return next(new InternalServerError('Произошла ошибка на сервере'));
     });
@@ -125,7 +132,7 @@ module.exports.login = (req, res, next) => {
     .select('+password')
     .then((user) => {
       if (!user) {
-        return next(new UnauthorizedError('Неправильная почта или пароль'));
+        return next(new ValidationError('Неправильная почта или пароль'));
       }
       userInfo = user;
       return bcrypt.compare(password, user.password);

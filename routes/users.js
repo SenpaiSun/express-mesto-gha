@@ -15,10 +15,10 @@ router.get(
   '/users/:userId',
   celebrate({
     params: Joi.object().keys({
-      id: Joi.string().length(24).hex().required(),
+      userId: Joi.string().length(24).hex().required(),
     }),
   }),
-  getUserById
+  getUserById,
 );
 router.patch(
   '/users/me',
@@ -28,18 +28,18 @@ router.patch(
       about: Joi.string().min(2).max(30),
     }),
   }),
-  updateProfile
+  updateProfile,
 );
 router.patch(
   '/users/me/avatar',
   celebrate({
     body: Joi.object().keys({
       avatar: Joi.string().pattern(
-        /^(http|https):\/\/(www\.)?[\w\-._~:/?#]+#?$/
+        /^(http|https):\/\/(www\.)?[\w\-._~:/?#]+#?$/,
       ),
     }),
   }),
-  updateAvatar
+  updateAvatar,
 );
 
 module.exports = router;
