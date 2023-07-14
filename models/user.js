@@ -41,10 +41,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     select: false,
-    validate: {
-      validator: (value) => value.length >= 6,
-      message: 'Пароль должен быть длинее 6 символов!',
-    },
   },
 });
 

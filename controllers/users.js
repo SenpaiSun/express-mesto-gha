@@ -148,7 +148,7 @@ module.exports.login = (req, res, next) => {
       );
       return res.send({ token });
     })
-    .catch(() => next(new UnauthorizedError('Неправильная почта или пароль')));
+    .catch(next);
 };
 
 module.exports.getInfoUser = (req, res, next) => {

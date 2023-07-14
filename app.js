@@ -41,7 +41,7 @@ app.post(
       name: Joi.string().min(2).max(30),
       about: Joi.string().min(2).max(30),
       avatar: Joi.string().pattern(
-        /^(http|https):\/\/(www\.)?[\w\-._~:/?#]+#?$/,
+        /^(http|https):\/\/(www\.)?[\w\-._~:/?#]+(?:\.[\w\-._~:/?#]+)+#?$/,
       ),
       email: Joi.string().email().required(),
       password: Joi.string().min(6).required(),
@@ -58,7 +58,9 @@ app.use('*', () => {
 app.use(errors());
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  res.status(err.status).json({ message: err.message });
+  const status = err.status || 500;
+  const message = err.message || 'Ошибка на сервере';
+  res.status(status).json({ message });
 });
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
