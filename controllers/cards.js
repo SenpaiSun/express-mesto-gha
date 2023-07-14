@@ -37,6 +37,7 @@ module.exports.deleteCard = (req, res, next) => {
       }
       return Card.findByIdAndRemove(req.params.cardId);
     })
+    .then((remove) => res.send(remove))
     .catch((err) => {
       if (err.kind === 'ObjectId') {
         return next(
