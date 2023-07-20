@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/NotFoundError');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cardsRouter = require('./routes/cards');
 const usersRouter = require('./routes/users');
 
@@ -24,6 +25,7 @@ app.use(limiter);
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(requestLogger);
 app.post(
   '/signin',
   celebrate({
@@ -52,6 +54,7 @@ app.post(
 app.use(auth);
 app.use(cardsRouter);
 app.use(usersRouter);
+app.use(errorLogger);
 app.use('*', () => {
   throw new NotFoundError('Некорректный URL');
 });
