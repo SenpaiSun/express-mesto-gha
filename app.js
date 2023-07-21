@@ -11,6 +11,7 @@ const NotFoundError = require('./errors/NotFoundError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cardsRouter = require('./routes/cards');
 const usersRouter = require('./routes/users');
+const { cors } = require('./middlewares/cors');
 
 const app = express();
 const { PORT = 3000 } = process.env;
@@ -26,6 +27,12 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(requestLogger);
+app.use(cors);
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 app.post(
   '/signin',
   celebrate({
