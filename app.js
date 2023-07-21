@@ -22,12 +22,12 @@ const limiter = rateLimit({
 });
 mongoose.connect('mongodb://localhost:27017/mestodb', { family: 4 });
 
+app.use(cors);
 app.use(limiter);
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(requestLogger);
-app.use(cors);
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
@@ -41,7 +41,7 @@ app.post(
       password: Joi.string().min(6).required(),
     }),
   }),
-  login,
+  login
 );
 app.post(
   '/signup',
@@ -50,13 +50,13 @@ app.post(
       name: Joi.string().min(2).max(30),
       about: Joi.string().min(2).max(30),
       avatar: Joi.string().pattern(
-        /^(http|https):\/\/(www\.)?[\w\-._~:/?#]+(?:\.[\w\-._~:/?#]+)+#?$/,
+        /^(http|https):\/\/(www\.)?[\w\-._~:/?#]+(?:\.[\w\-._~:/?#]+)+#?$/
       ),
       email: Joi.string().email().required(),
       password: Joi.string().min(6).required(),
     }),
   }),
-  createUser,
+  createUser
 );
 app.use(auth);
 app.use(cardsRouter);
