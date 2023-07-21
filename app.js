@@ -41,7 +41,7 @@ app.post(
       password: Joi.string().min(6).required(),
     }),
   }),
-  login
+  login,
 );
 app.post(
   '/signup',
@@ -50,13 +50,13 @@ app.post(
       name: Joi.string().min(2).max(30),
       about: Joi.string().min(2).max(30),
       avatar: Joi.string().pattern(
-        /^(http|https):\/\/(www\.)?[\w\-._~:/?#]+(?:\.[\w\-._~:/?#]+)+#?$/
+        /^(http|https):\/\/(www\.)?[\w\-._~:/?#]+(?:\.[\w\-._~:/?#]+)+#?$/,
       ),
       email: Joi.string().email().required(),
       password: Joi.string().min(6).required(),
     }),
   }),
-  createUser
+  createUser,
 );
 app.use(auth);
 app.use(cardsRouter);
